@@ -9,17 +9,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Command\Command;
 
 class QueueCommand extends Command {
-    const NEW_LINE = true;
     
     protected function configure() {
         parent::configure();
         $this->setName('resque:queue')
-             ->addArgument('job_name', InputArgument::REQUIRED, 'Resque Job name');
+             ->addArgument('job_class_namespace', InputArgument::REQUIRED, 'Resque Job Class name (with namespace)')
+             ->addArgument('queue_name', InputArgument::OPTIONAL, 'Queue name', 'default');
     }
-    
-    
+        
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $job = new Queue($input->getArgument('job_name'));
-        $output->write('Job as captured. Job id ' . $job);
+        $queue = new Queue();
+        $job = $queue->add($input->getArgument('job_class_namespace'), $input->getArgument('queue_name'));
+        $output->write("Job captured. Input at {$input->getArgument('queue_name')} queue. Job id {$job}");
     }
 }

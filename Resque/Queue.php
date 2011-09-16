@@ -3,13 +3,17 @@ namespace PHPResqueBundle\Resque;
 
 class Queue {
 
-    public function __construct($job_name) {        
-        require dirname(__FILE__) . '/../vendor/php-resque/lib/Resque.php';
-        Resque::setBackend('127.0.0.1:6379');
+    public function add($job_name, $queue_name) {
+        \Resque::setBackend('127.0.0.1:6379');
+        $args = array('time' => time(), 'array' => array('test' => 'test'));
         
-        $args = array('time' => time(), 'array' => array('test' => 'test'));        
-        $jobId = Resque::enqueue('default', $job_name, $args, true);
-        
-        return $jobId;
+        try {
+            $klass = new \ReflectionClass($job_name);
+            $jobId = \Resque::enqueue($queue_name, $klass->getName(), $args, true);
+            
+            return $jobId;
+        } catch (\ReflectionException $rfe) {
+            throw new \RuntimeException($rfe->getMessage());
+        }
     }
 }
