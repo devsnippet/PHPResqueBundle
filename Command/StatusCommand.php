@@ -17,7 +17,7 @@ class StatusCommand extends Command {
         
     protected function execute(InputInterface $input, OutputInterface $output) {
         $status = Status::check($input->getArgument('job_id'));
-        $output->write("Job status in queue: {$status}");
+        $output->write($status);
     }
 }
 
