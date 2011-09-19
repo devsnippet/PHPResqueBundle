@@ -18,8 +18,7 @@ class QueueCommand extends Command {
     }
         
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $queue = new Queue();
-        $job = $queue->add($input->getArgument('job_class_namespace'), $input->getArgument('queue_name'));
+        $job = Queue::add($input->getArgument('job_class_namespace'), $input->getArgument('queue_name'));
         $output->write("Job captured. Input at {$input->getArgument('queue_name')} queue. Job id {$job}");
     }
 }

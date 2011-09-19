@@ -68,6 +68,25 @@ This bundle supports all features from php-resque project. It's includes: worker
 
         $ php app/console resque:queue Namespace\\Of\\Class\SomeJob mailer
         
+        
+  Attach a Job using Queue class (PHPResqueBundle\Resque namespace):
+  
+        <?php
+        namespace Your\ProjectBundle\SubprojectBundle;
+        use PHPResqueBundle\Resque\Queue;
+        
+        class MyJob {
+        
+            public function attach() {
+                Queue::add(__CLASS__, 'default');
+            }
+            
+            public function perform() {
+                echo 'Perform !';
+            }
+        }
+
+    When you run MyJob->attach() method the job will be saved at 'default' queue.        
 
 ### Status ###
     

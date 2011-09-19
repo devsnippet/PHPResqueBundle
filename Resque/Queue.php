@@ -1,11 +1,12 @@
 <?php
 namespace PHPResqueBundle\Resque;
 
+require_once dirname(__FILE__) . '/../vendor/php-resque/lib/Resque.php';
+
 class Queue {
 
-    public function add($job_name, $queue_name) {
+    public static function add($job_name, $queue_name, $args = array()) {
         \Resque::setBackend('127.0.0.1:6379');
-        $args = array('time' => time(), 'array' => array('test' => 'test'));
         
         try {
             $klass = new \ReflectionClass($job_name);
