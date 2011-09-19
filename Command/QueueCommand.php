@@ -13,6 +13,7 @@ class QueueCommand extends Command {
     protected function configure() {
         parent::configure();
         $this->setName('resque:queue')
+             ->setDescription('Attach a class into any specified queue to be performed.')
              ->addArgument('job_class_namespace', InputArgument::REQUIRED, 'Resque Job Class name (with namespace)')
              ->addArgument('queue_name', InputArgument::OPTIONAL, 'Queue name', 'default')
              ->setHelp(<<<EOF

@@ -12,6 +12,7 @@ class StatusCommand extends Command {
     
     protected function configure() {
         $this->setName('resque:status')
+             ->setDescription('Check Job status')
              ->addArgument('job_id', InputArgument::REQUIRED, 'Job ID')
              ->setHelp("Check a Job status");
     }

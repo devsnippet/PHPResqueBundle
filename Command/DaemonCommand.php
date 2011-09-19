@@ -13,6 +13,7 @@ class DaemonCommand extends Command {
 
     protected function configure() {
         $this->setName('resque:worker')
+             ->setDescription("Starts Resque worker to read queues. Use resque:worker --help for + info")
              ->addArgument('queue', InputArgument::OPTIONAL, 'Queue name', '*')
              ->addOption('log', 'l', InputOption::VALUE_OPTIONAL, 'Verbose mode [verbose|normal|none]')
              ->addOption('interval', 'i', InputOption::VALUE_OPTIONAL, 'Daemon check interval (in seconds)', 5)
