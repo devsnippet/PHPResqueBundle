@@ -18,7 +18,28 @@ class Status {
                 break;
             }
         }
-
+        
         return 'Job status in queue is ' . $status->get() . " [$constant_name]";
+    }
+
+    public static function update($status, $to_job_id) {
+        \Resque::setBackend('127.0.0.1:6379');
+        
+        $job = new \Resque_Job_Status($to_job_id);
+        
+        if (!$job->get()) {
+            throw new \RuntimeException("Job {$to_job_id} was not found");
+        }
+        
+        $class = new \ReflectionObject($job);
+        
+        foreach ($class->getConstants() as $constant_value) {
+            if ($constant_value == $status) {
+                $job->update($status);
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
