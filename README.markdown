@@ -57,6 +57,9 @@ This bundle supports all features from php-resque project. It's includes: worker
 
         $ php app/console resque:worker --log verbose --interval 10 mailer,news_subscriptions 
 
+  For more information you can run:
+
+        $ php app/console resque:worker --help
 
 ### Queue ###
    

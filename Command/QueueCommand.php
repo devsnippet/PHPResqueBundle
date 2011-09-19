@@ -14,7 +14,14 @@ class QueueCommand extends Command {
         parent::configure();
         $this->setName('resque:queue')
              ->addArgument('job_class_namespace', InputArgument::REQUIRED, 'Resque Job Class name (with namespace)')
-             ->addArgument('queue_name', InputArgument::OPTIONAL, 'Queue name', 'default');
+             ->addArgument('queue_name', InputArgument::OPTIONAL, 'Queue name', 'default')
+             ->setHelp(<<<EOF
+resque:queue Your\\ProjectBundle\\SubprojectBundle\\JobClass mailer
+This will put JobClass into 'mailer' queue
+
+You can enqueue new jobs using a PHPResqueBundle\Resque\Queue
+EOF
+);
     }
         
     protected function execute(InputInterface $input, OutputInterface $output) {

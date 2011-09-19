@@ -13,7 +13,8 @@ class UpdateCommand extends Command {
     protected function configure() {
         $this->setName('resque:update')
              ->addArgument('job_id', InputArgument::REQUIRED, 'The Job ID')
-             ->addArgument('new_status', InputArgument::REQUIRED, 'New Status');
+             ->addArgument('new_status', InputArgument::REQUIRED, 'New Status')
+             ->setHelp("Set a new status to a Job.");
     }
 
     
