@@ -19,7 +19,7 @@ This bundle supports all features from php-resque project. It's includes: worker
 
         $ php bin/vendors install
     
-  If you have troubles on run this, try with --reinstall
+  If you have trouble running this, try with --reinstall
   NOTE that this will download ALL your vendors again !
         
         $ php bin/vendors install --reinstall
@@ -71,7 +71,7 @@ This bundle supports all features from php-resque project. It's includes: worker
 
 ### Status ###
     
-  php-resque can us check a job status. In PHPResqueBundle this can be done by:
+  php-resque enable us to check a job status. In PHPResqueBundle this can be done by:
 
         $ php app/console resque:status 50b0568a3057c4d80641dcee6de7cca9
         
@@ -94,7 +94,7 @@ This bundle supports all features from php-resque project. It's includes: worker
    
   `beforeFirstFork`, `beforeFork`, `afterFork`, `beforePerform`, `afterPerform`, `onFailure`, `afterEnqueue`. Please, refer to php-resque project for documentation about these events.
    
-  PHPResqueBundle has a interface that ability you use them into your classes. So, if you want to add a beforePerform event into yout MyJob class:
+  PHPResqueBundle has an interface that enables you to use them into your classes. So, if you want to add a beforePerform event into your MyJob class:
    
     <?php
     namespace Your\ProjectBundle\SubprojectBundle;
@@ -108,7 +108,7 @@ This bundle supports all features from php-resque project. It's includes: worker
         }
     
         public static function doitbetter() {
-            echo "An event was throwed !";
+            echo "An event was thrown !";
         }
     
         public function perform() {
@@ -116,9 +116,8 @@ This bundle supports all features from php-resque project. It's includes: worker
         }        
     }
         
-  All events into Event (PHPResqueBundle\Resque\Event) class is mapped by a method that is a event name which is provided on the fly.
-  The arguments is always: classname (use __CLASS__ always you can) and a *callback*. `Callbacks` can be anything callable by `call_user_func_array`.
-  More information about what can be a `callable` should be taken at php-resque project.
+
+  All the events are available in the Event class (PHPResqueBundle\Resque\Event), mapped by existing methods at runtime, which will be named as the event you wish. The arguments of these methods are always: classname (use `__CLASS` whenever possible) and a callback. Callbacks are anything that can be triggered by the `call_user_func_array` function. For more information on what may become a `callback` you should get on the project php-resque.
    
 ### Stop an event ###
     
