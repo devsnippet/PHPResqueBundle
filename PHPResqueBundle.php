@@ -63,6 +63,12 @@ class PHPResqueBundle extends Bundle {
     public function daemon() {
         \Resque::setBackend('127.0.0.1:6379');
         
+        if (strpos($this->queue, ':') !== false) {
+            list($namespace, $queue) = explode(':', $this->queue);
+            \Resque_Redis::prefix($namespace);
+            $this->queue = $queue;
+        }
+        
         if ($this->getForkInstances() > 1) {
             for ($i = 0; $i < $this->getForkInstances(); ++$i) {
                 $pid = pcntl_fork();

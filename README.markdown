@@ -2,7 +2,7 @@ PHP-Resque Bundle for Symfony 2
 ===========================================
 PHPResqueBundle is an derivation of php-resque project <https://github.com/chrisboulton/php-resque/>.
 
-This bundle supports all features from php-resque project. It's includes: workers, enqueues, fork workers, events, etc.
+This bundle supports all features from php-resque project. It's includes: workers, enqueues, fork workers, events, namespaces, etc.
 
 ## Install ##
   Add the following lines below into your `deps` file:
@@ -45,7 +45,7 @@ This bundle supports all features from php-resque project. It's includes: worker
         
         $ php app/console resque:worker
    
-  This will start a worker for 'default' queue with normal log output with interval of 5 seconds between interations.
+  This will start a worker for 'default' queue at 'resque' namespace with normal log output with interval of 5 seconds between interations.
   But, of course you can change this with optional arguments:
    
         --log (verbose|normal|none)
@@ -56,6 +56,20 @@ This bundle supports all features from php-resque project. It's includes: worker
   So, if you want to work with 'mailer' and 'news_subscriptions' queues with 10 seconds of interval between interactions in a verbose output:
 
         $ php app/console resque:worker --log verbose --interval 10 mailer,news_subscriptions 
+        
+  NAMESPACE Support:
+  
+  If you have the following namespaces: php, resque
+  For 'php' namespace you have: mailer queue.
+  For 'resque' namespace you have: news, parser, ftp queues.
+  
+  To run only php namespace you should do:
+  
+        $ php app/console resque:worker "php:*"
+        
+  To run only 'ftp' and 'parser' queues on "resque" namespace:
+        
+        $ php app/console resque:worker resque:ftp,parser
 
   For more information you can run:
 
@@ -70,7 +84,10 @@ This bundle supports all features from php-resque project. It's includes: worker
   You can define which queue with optional argument [queue_name]. To put 'SomeJob' into 'mailer' queue:
 
         $ php app/console resque:queue Namespace\\Of\\Class\SomeJob mailer
+  
+  If you use namespaces:
         
+        $ php app/console resque:queue Namespace\\Of\\Class\SomeJob your_namespace:mailer
         
   Attach a Job using Queue class (PHPResqueBundle\Resque namespace):
   
@@ -82,6 +99,10 @@ This bundle supports all features from php-resque project. It's includes: worker
         
             public function attach() {
                 Queue::add(__CLASS__, 'default');
+            }
+            
+            public function attachWithNamespace() {
+                Queue:add(__CLASS__, 'your_namespace:news');
             }
             
             public function perform() {
@@ -97,6 +118,12 @@ This bundle supports all features from php-resque project. It's includes: worker
 
         $ php app/console resque:status 50b0568a3057c4d80641dcee6de7cca9
         
+  If you use namespaces:
+        
+        $ php app/console resque:status 50b0568a3057c4d80641dcee6de7cca9 --namespace your_namespace
+
+    NOTE: if you DO NOT provide --namespace only default namespace will be searched for job status id.
+        
   Hash status was provided when you enqueue a job.
     
     
@@ -105,6 +132,7 @@ This bundle supports all features from php-resque project. It's includes: worker
   If you need to update a job status, this can be done by:
 
         $ php app/console resque:update [job_hash] [new_status]
+        $ php app/console resque:update [job_hash] [new_status] --namespace your_namespace
         
   Status can be checked at original php-resque project at <https://github.com/chrisboulton/php-resque/>
     
