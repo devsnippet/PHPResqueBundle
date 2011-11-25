@@ -6,14 +6,14 @@ This bundle supports all features from php-resque project. It's includes: worker
 
 ## Install ##
   Add the following lines below into your `deps` file:
-    
-        [PHPResqueBundle]
-            git=http://github.com/hlegius/PHPResqueBundle.git
-            target=/PHPResqueBundle
+
+    [PHPResqueBundle]
+       git=http://github.com/hlegius/PHPResqueBundle.git
+       target=/PHPResqueBundle
             
-        [php-resque]
-            git=http://github.com/chrisboulton/php-resque.git
-            target=/PHPResqueBundle/vendor/php-resque
+    [php-resque]
+       git=http://github.com/chrisboulton/php-resque.git
+       target=/PHPResqueBundle/vendor/php-resque
 
   Now, run:
 
